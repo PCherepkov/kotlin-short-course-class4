@@ -54,11 +54,9 @@ fun sendMouseCoordinates(mouseX: Int, mouseY: Int) {
     }
 }
 
-fun startNetworking(args: Array<String>, hostname: String, port: Int) {
-    if (args.size == 1) {
-        when (args[0]) {
-            "client" -> startAsClient(hostname, port)
-            "server" -> startAsServer(hostname, port)
-        }
+fun startNetworking(role: String, hostname: String, port: Int) {
+    when (role) {
+        "client" -> startAsClient(hostname, port)
+        "server" -> startAsServer(hostname, port)
     }
 }
