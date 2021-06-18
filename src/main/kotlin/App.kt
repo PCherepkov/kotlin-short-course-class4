@@ -22,8 +22,8 @@ fun main(args: Array<String>) {
 
 fun fieldCheck() : Int {
     // 0 - free; 1 - you; 2 - opponent;
-    var field = Array(State.size * State.size, {0})
-    var streak = min(State.size, 5)
+    val field = Array(State.size * State.size, {0})
+    val streak = min(State.size, 5)
 
     for (i in State.points) {
         if (i.isRemote) {
@@ -42,14 +42,12 @@ fun fieldCheck() : Int {
             while (j < streak && field[i * State.size + k + j] == 1) {
                 win1++
                 j++
-                println(j)
             }
 
             j = 0
             while (j < streak && field[i * State.size + k + j] == 2) {
                 win2++
                 j++
-                println(j)
             }
             if (win1 == streak)
                 return 1
@@ -178,7 +176,7 @@ class Renderer(val layer: SkiaLayer, val fieldSize: Int): SkiaRenderer {
             i++
         }
 
-        var res = fieldCheck()
+        val res = fieldCheck()
         if (res == 0) {
             canvas.drawString("Game over!", State.W.toFloat() / 2 - 100, State.H.toFloat() / 2 - 20, font, paintText)
             canvas.drawString("Tie!", State.W.toFloat() / 2 - 40, State.H.toFloat() / 2 + 20, font, paintText)
