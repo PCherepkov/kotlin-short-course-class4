@@ -12,11 +12,13 @@ fun startAsServer(hostname: String, port: Int) = runBlocking {
     val server = aSocket(ActorSelectorManager(Dispatchers.IO)).tcp().bind(InetSocketAddress(hostname, port))
     val socket = server.accept()
     State.input = socket.openReadChannel()
+    State.output = socket.openWriteChannel(autoFlush = true)
     try {
         while(true) {
             val line = State.input?.readUTF8Line() ?: break
-            val coords = line.split(" ").map { it.toFloat() }
-            if(coords.size == 2) {
+            State.choice--
+            val coords = line.split(" ").map { it.toInt() }
+            if (coords.size == 2) {
                 State.points.add(Point(coords[0], coords[1], true))
             }
         }
@@ -31,9 +33,22 @@ fun startAsClient(hostname: String, port: Int) = runBlocking {
     val socket = aSocket(ActorSelectorManager(Dispatchers.IO)).
     tcp().connect(InetSocketAddress(hostname, port))
     State.output = socket.openWriteChannel(autoFlush = true)
+    State.input = socket.openReadChannel()
+
+    try {
+        while(true) {
+            val line = State.input?.readUTF8Line() ?: break
+            State.choice--
+            val coords = line.split(" ").map { it.toInt() }
+            if (coords.size == 2) {
+                State.points.add(Point(coords[0], coords[1], true))
+            }
+        }
+    } finally {
+    }
 }
 
-fun sendMouseCoordinates(mouseX: Float, mouseY: Float) {
+fun sendMouseCoordinates(mouseX: Int, mouseY: Int) {
     GlobalScope.launch(Dispatchers.IO) {
         State.output?.writeStringUtf8("$mouseX $mouseY\n")
     }
