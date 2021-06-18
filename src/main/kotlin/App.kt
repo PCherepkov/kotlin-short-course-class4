@@ -13,7 +13,7 @@ import javax.swing.WindowConstants
 
 fun main(args: Array<String>) {
     val role = if(args.size > 0) args[0] else "server"
-    createWindow("Klock ($role)")
+    createWindow("Points ($role)")
     startNetworking(role, "127.0.0.1", 2323)
 }
 
