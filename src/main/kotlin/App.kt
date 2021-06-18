@@ -12,8 +12,9 @@ import java.awt.event.MouseEvent
 import javax.swing.WindowConstants
 
 fun main(args: Array<String>) {
-    createWindow("Klock (${args[0]})")
-    startNetworking(args, "127.0.0.1", 2323)
+    val role = if(args.size > 0) args[0] else "server"
+    createWindow("Klock ($role)")
+    startNetworking(role, "127.0.0.1", 2323)
 }
 
 fun createWindow(title: String) = runBlocking(Dispatchers.Swing) {
