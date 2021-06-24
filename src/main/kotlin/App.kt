@@ -14,10 +14,10 @@ import javax.swing.WindowConstants
 import kotlin.math.min
 
 fun main(args: Array<String>) {
-    val size = 6
+    val size = 3
     State.size = size
     createWindow("BestGameEver (${args[0]})", size)
-    startNetworking(args, "127.0.0.1", 2323)
+    startNetworking(args[0], "192.168.0.109", 2323)
 }
 
 fun fieldCheck() : Int {
